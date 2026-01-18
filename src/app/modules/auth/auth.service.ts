@@ -18,11 +18,11 @@ const credentialsLogin = async (payload: Partial<IUser>) => {
     throw new AppError(httpStatus.BAD_REQUEST, "Email does not exist");
   }
 
-  // const isPasswordMatched = await bcryptjs.compare(password as string, isUserExist.password as string);
+  const isPasswordMatched = await bcryptjs.compare(password as string, isUserExist.password as string);
 
-  // if (!isPasswordMatched) {
-  //   throw new AppError(httpStatus.BAD_REQUEST, "Incorrect Password");
-  // }
+  if (!isPasswordMatched) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Incorrect Password");
+  }
 
   const userTokens = createUserTokens(isUserExist);
 
