@@ -80,6 +80,7 @@ const resetPassword = catchAsync(async (req: Request, res: Response, next: NextF
 
   const oldPassword = req.body.oldPassword;
   const decodedToken = req.user;
+  console.log(decodedToken);
 
   await AuthServices.resetPassword(oldPassword, newPassword, decodedToken as JwtPayload);
 
