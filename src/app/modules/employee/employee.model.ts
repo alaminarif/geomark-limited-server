@@ -1,19 +1,19 @@
 import { model, Schema } from "mongoose";
-import { IClient } from "./client.interface";
+import { IEmployee } from "./employee.interface";
 
-const clientSchema = new Schema<IClient>(
+const employeeSchema = new Schema<IEmployee>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    phone: { type: String },
+    phone: { type: String, required: true },
     address: { type: String },
+    designation: { type: String, required: true },
     picture: { type: String },
     joinDate: { type: Date },
   },
   {
     timestamps: true,
-    versionKey: false,
   },
 );
 
-export const Client = model<IClient>("Client", clientSchema);
+export const Employee = model<IEmployee>("Employee", employeeSchema);

@@ -2,6 +2,7 @@ import { Router } from "express";
 import { UserRoutes } from "../modules/user/user.route";
 import { AuthRoutes } from "../modules/auth/auth.route";
 import { ClientRoutes } from "../modules/client/client.route";
+import { EmployeeRoutes } from "../modules/employee/employee.route";
 
 export const router = Router();
 
@@ -20,10 +21,10 @@ const moduleRoutes = [
     route: ClientRoutes,
   },
 
-  // {
-  //   path: "/employee",
-  //   route: EmployeeRoutes,
-  // },
+  {
+    path: "/employee",
+    route: EmployeeRoutes,
+  },
 ];
 
 moduleRoutes.forEach((route) => {
