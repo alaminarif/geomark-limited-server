@@ -2,14 +2,15 @@ import { Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { ClientService } from "./client.service";
+import { IClient } from "./client.interface";
 
 const createClient = catchAsync(async (req: Request, res: Response) => {
-  // const payload: IClient = {
-  //   ...req.body,
-  //   images: (req.files as Express.Multer.File[]).map((file) => file.path),
-  // };
+  const payload: IClient = {
+    ...req.body,
+    images: (req.files as Express.Multer.File[]).map((file) => file.path),
+  };
 
-  const payload = req.body;
+  // const payload = req.body;
   const result = await ClientService.createClient(payload);
   sendResponse(res, {
     statusCode: 201,
