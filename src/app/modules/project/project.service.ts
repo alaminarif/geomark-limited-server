@@ -59,7 +59,7 @@ const updateProject = async (id: string, payload: Partial<IProject>) => {
 };
 
 const getAllProjects = async (query: Record<string, string>) => {
-  const queryBuilder = new QueryBuilder(Project.find(), query);
+  const queryBuilder = new QueryBuilder(Project.find().populate("client"), query);
 
   const projects = await queryBuilder.search(projectSearchableFields).filter().sort().fields().paginate();
 

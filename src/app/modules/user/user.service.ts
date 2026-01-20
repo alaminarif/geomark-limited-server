@@ -89,10 +89,16 @@ const getMe = async (userId: string) => {
   };
 };
 
+const deleteUser = async (id: string) => {
+  const result = await User.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
+  return result;
+};
+
 export const UserServices = {
   createUser,
   getAllUsers,
   getSingleUser,
   updateUser,
+  deleteUser,
   getMe,
 };

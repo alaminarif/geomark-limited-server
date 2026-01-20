@@ -82,6 +82,19 @@ const getSingleUser = catchAsync(async (req: Request, res: Response, next: NextF
   });
 });
 
+const deleteUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  const id = req.params.id as string;
+
+  const result = await UserServices.deleteUser(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: "User Deleted Successfully",
+    data: result,
+  });
+});
+
 // function => try-catch catch => req-res function
 
 export const UserControllers = {
@@ -89,5 +102,6 @@ export const UserControllers = {
   getAllUsers,
   getSingleUser,
   updateUser,
+  deleteUser,
   getMe,
 };
