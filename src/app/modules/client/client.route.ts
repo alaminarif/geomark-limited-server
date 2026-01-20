@@ -16,7 +16,7 @@ router.post(
 );
 
 router.get("/", ClientController.getAllClients);
-router.get("/:email", ClientController.getSingleClient);
+router.get("/:id", ClientController.getSingleClient);
 
 router.delete("/:id", checkAuth(Role.SUPER_ADMIN, Role.ADMIN), ClientController.deleteClient);
 

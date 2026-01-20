@@ -30,8 +30,8 @@ const getAllClients = async (query: Record<string, string>) => {
   };
 };
 
-const getSingleClient = async (email: string) => {
-  const client = await Client.findOne({ email });
+const getSingleClient = async (id: string) => {
+  const client = await Client.findById(id);
   return {
     data: client,
   };

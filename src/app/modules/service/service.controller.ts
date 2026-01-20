@@ -2,14 +2,15 @@ import { Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { ServiceService } from "./service.service";
+import { IService } from "./service.interface";
 
 const createService = catchAsync(async (req: Request, res: Response) => {
-  // const payload: IService = {
-  //   ...req.body,
-  //   images: (req.files as Express.Multer.File[]).map((file) => file.path),
-  // };
+  const payload: IService = {
+    ...req.body,
+    images: (req.files as Express.Multer.File[]).map((file) => file.path),
+  };
 
-  const payload = req.body;
+  // const payload = req.body;
   const result = await ServiceService.createService(payload);
   sendResponse(res, {
     statusCode: 201,
@@ -34,9 +35,9 @@ const getAllServices = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getSingleService = catchAsync(async (req: Request, res: Response) => {
-  const email = req.params.email as string;
+  const id = req.params.id as string;
 
-  const result = await ServiceService.getSingleService(email);
+  const result = await ServiceService.getSingleService(id);
 
   sendResponse(res, {
     statusCode: 200,

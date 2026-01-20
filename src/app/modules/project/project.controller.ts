@@ -2,14 +2,15 @@ import { Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { ProjectService } from "./project.service";
+import { IProject } from "./project.interface";
 
 const createProject = catchAsync(async (req: Request, res: Response) => {
-  // const payload: IProject = {
-  //   ...req.body,
-  //   images: (req.files as Express.Multer.File[]).map((file) => file.path),
-  // };
+  const payload: IProject = {
+    ...req.body,
+    images: (req.files as Express.Multer.File[]).map((file) => file.path),
+  };
 
-  const payload = req.body;
+  // const payload = req.body;
   const result = await ProjectService.createProject(payload);
   sendResponse(res, {
     statusCode: 201,
@@ -34,9 +35,9 @@ const getAllProjects = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getSingleProject = catchAsync(async (req: Request, res: Response) => {
-  const email = req.params.email as string;
+  const id = req.params.id as string;
 
-  const result = await ProjectService.getSingleProject(email);
+  const result = await ProjectService.getSingleProject(id);
 
   sendResponse(res, {
     statusCode: 200,

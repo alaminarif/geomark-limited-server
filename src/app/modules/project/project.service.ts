@@ -7,10 +7,14 @@ import { IProject } from "./project.interface";
 import { Project } from "./project.model";
 
 const createProject = async (payload: IProject) => {
-  const existingProject = await Project.findOne({ name: payload.name });
+  const existingProjectName = await Project.findOne({ name: payload.name });
+  const existingProjecttitle = await Project.findOne({ title: payload.title });
 
-  if (existingProject) {
+  if (existingProjectName) {
     throw new AppError(httpStatus.CONFLICT, "Project with this name already exists");
+  }
+  if (existingProjecttitle) {
+    throw new AppError(httpStatus.CONFLICT, "Project with this title already exists");
   }
 
   const project = await Project.create(payload);
@@ -31,8 +35,8 @@ const getAllProjects = async (query: Record<string, string>) => {
   };
 };
 
-const getSingleProject = async (email: string) => {
-  const project = await Project.findOne({ email });
+const getSingleProject = async (id: string) => {
+  const project = await Project.findById(id);
   return {
     data: project,
   };

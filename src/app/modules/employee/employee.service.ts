@@ -31,8 +31,8 @@ const getAllEmployees = async (query: Record<string, string>) => {
   };
 };
 
-const getSingleEmployee = async (email: string) => {
-  const employee = await Employee.findOne({ email });
+const getSingleEmployee = async (id: string) => {
+  const employee = await Employee.findById(id);
   return {
     data: employee,
   };

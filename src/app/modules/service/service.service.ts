@@ -30,10 +30,10 @@ const getAllServices = async (query: Record<string, string>) => {
   };
 };
 
-const getSingleService = async (email: string) => {
-  const client = await Service.findOne({ email });
+const getSingleService = async (id: string) => {
+  const service = await Service.findById(id);
   return {
-    data: client,
+    data: service,
   };
 };
 

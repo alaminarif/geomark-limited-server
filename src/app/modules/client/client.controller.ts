@@ -35,9 +35,9 @@ const getAllClients = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getSingleClient = catchAsync(async (req: Request, res: Response) => {
-  const email = req.params.email as string;
+  const id = req.params.id as string;
 
-  const result = await ClientService.getSingleClient(email);
+  const result = await ClientService.getSingleClient(id);
 
   sendResponse(res, {
     statusCode: 200,

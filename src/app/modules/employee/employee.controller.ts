@@ -2,14 +2,15 @@ import { Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { EmployeeService } from "./employee.service";
+import { IEmployee } from "./employee.interface";
 
 const createEmployee = catchAsync(async (req: Request, res: Response) => {
-  // const payload: IEmployee = {
-  //   ...req.body,
-  //   images: (req.files as Express.Multer.File[]).map((file) => file.path),
-  // };
+  const payload: IEmployee = {
+    ...req.body,
+    images: (req.files as Express.Multer.File[]).map((file) => file.path),
+  };
 
-  const payload = req.body;
+  // const payload = req.body;
 
   const result = await EmployeeService.createEmployee(payload);
 
@@ -36,9 +37,9 @@ const getAllEmployees = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getSingleEmployee = catchAsync(async (req: Request, res: Response) => {
-  const email = req.params.email as string;
+  const id = req.params.id as string;
 
-  const result = await EmployeeService.getSingleEmployee(email);
+  const result = await EmployeeService.getSingleEmployee(id);
 
   sendResponse(res, {
     statusCode: 200,
