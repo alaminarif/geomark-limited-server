@@ -3,7 +3,7 @@ import express from "express";
 import { checkAuth } from "../../middlewares/checkAuth";
 import { Role } from "../user/user.interface";
 import { ServiceController } from "./service.controller";
-import { createServiceZodSchema } from "./service.validation";
+import { createServiceZodSchema, updateServiceZodSchema } from "./service.validation";
 import { multerUpload } from "../../config/multer.config";
 
 const router = express.Router();
@@ -13,6 +13,14 @@ router.post(
   multerUpload.single("file"),
   validateRequest(createServiceZodSchema),
   ServiceController.createService,
+);
+
+router.patch(
+  "/:id",
+  checkAuth(Role.SUPER_ADMIN, Role.ADMIN),
+  multerUpload.single("file"),
+  validateRequest(updateServiceZodSchema),
+  ServiceController.updateService,
 );
 
 router.get("/", ServiceController.getAllServices);

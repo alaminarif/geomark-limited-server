@@ -20,6 +20,21 @@ const createService = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateService = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id as string;
+  const payload: IService = {
+    ...req.body,
+    picture: req.file?.path,
+  };
+  const result = await ServiceService.updateService(id, payload);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Service updated successfully",
+    data: result,
+  });
+});
+
 const getAllServices = catchAsync(async (req: Request, res: Response) => {
   const query = req.query;
 
@@ -47,20 +62,6 @@ const getSingleService = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// const updateService = catchAsync(async (req: Request, res: Response) => {
-//   const payload: IService = {
-//     ...req.body,
-//     images: (req.files as Express.Multer.File[]).map((file) => file.path),
-//   };
-//   const result = await ServiceService.updateService(req.params.id, payload);
-//   sendResponse(res, {
-//     statusCode: 200,
-//     success: true,
-//     message: "Service updated successfully",
-//     data: result,
-//   });
-// });
-
 const deleteService = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params as { id: string };
   const result = await ServiceService.deleteService(id);
@@ -76,6 +77,6 @@ export const ServiceController = {
   createService,
   getAllServices,
   getSingleService,
-  // updateService,
+  updateService,
   deleteService,
 };
