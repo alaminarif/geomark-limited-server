@@ -7,7 +7,8 @@ import { IClient } from "./client.interface";
 const createClient = catchAsync(async (req: Request, res: Response) => {
   const payload: IClient = {
     ...req.body,
-    images: (req.files as Express.Multer.File[]).map((file) => file.path),
+    picture: req.file?.path,
+    // images: (req.files as Express.Multer.File[]).map((file) => file.path),
   };
 
   // const payload = req.body;

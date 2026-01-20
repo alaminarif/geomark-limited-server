@@ -7,7 +7,7 @@ import { IService } from "./service.interface";
 const createService = catchAsync(async (req: Request, res: Response) => {
   const payload: IService = {
     ...req.body,
-    images: (req.files as Express.Multer.File[]).map((file) => file.path),
+    picture: req.file?.path,
   };
 
   // const payload = req.body;

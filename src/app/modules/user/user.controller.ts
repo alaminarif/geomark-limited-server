@@ -6,9 +6,15 @@ import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { UserServices } from "./user.service";
 import { JwtPayload } from "jsonwebtoken";
+import { IUser } from "./user.interface";
 
 const createUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-  const user = await UserServices.createUser(req.body);
+  const payload: IUser = {
+    ...req.body,
+    picture: req.file?.path,
+  };
+
+  const user = await UserServices.createUser(payload);
 
   sendResponse(res, {
     success: true,
@@ -37,8 +43,14 @@ const updateUser = catchAsync(async (req: Request, res: Response, next: NextFunc
 });
 
 const getAllUsers = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-  const result = await UserServices.getAllUsers();
+  const query = req.query;
+  const result = await UserServices.getAllUsers(query as Record<string, string>);
 
+  // res.status(httpStatus.OK).json({
+  //     success: true,
+  //     message: "All Users Retrieved Successfully",
+  //     data: users
+  // })
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.CREATED,
@@ -48,8 +60,38 @@ const getAllUsers = catchAsync(async (req: Request, res: Response, next: NextFun
   });
 });
 
+const getMe = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  const decodedToken = req.user as JwtPayload;
+
+  const result = await UserServices.getMe(decodedToken.userId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: "Your profile Retrieved Successfully",
+    data: result.data,
+  });
+});
+
+const getSingleUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  const id = req.params.id as string;
+
+  const result = await UserServices.getSingleUser(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: "User Retrieved Successfully",
+    data: result.data,
+  });
+});
+
+// function => try-catch catch => req-res function
+
 export const UserControllers = {
   createUser,
-  updateUser,
   getAllUsers,
+  getSingleUser,
+  updateUser,
+  getMe,
 };

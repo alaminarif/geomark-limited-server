@@ -7,7 +7,7 @@ import { IEmployee } from "./employee.interface";
 const createEmployee = catchAsync(async (req: Request, res: Response) => {
   const payload: IEmployee = {
     ...req.body,
-    images: (req.files as Express.Multer.File[]).map((file) => file.path),
+    picture: req.file?.path,
   };
 
   // const payload = req.body;

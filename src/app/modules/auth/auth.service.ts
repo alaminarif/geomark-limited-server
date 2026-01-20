@@ -5,7 +5,7 @@ import { JwtPayload } from "jsonwebtoken";
 import { envVars } from "../../config/env";
 import AppError from "../../errorHelpers/AppError";
 import { createNewAccessTokenWithRefreshToken, createUserTokens } from "../../utils/userTokens";
-import { IUser } from "../user/user.interface";
+import { IsActive, IUser } from "../user/user.interface";
 import { User } from "../user/user.model";
 
 const credentialsLogin = async (payload: Partial<IUser>) => {
@@ -15,7 +15,13 @@ const credentialsLogin = async (payload: Partial<IUser>) => {
   const isUserExist = await User.findOne({ email });
 
   if (!isUserExist) {
-    throw new AppError(httpStatus.BAD_REQUEST, "Email does not exist");
+    throw new AppError(httpStatus.BAD_REQUEST, "User does not exist");
+  }
+  if (isUserExist.isActive === IsActive.BLOCKED || isUserExist.isActive === IsActive.INACTIVE) {
+    throw new AppError(httpStatus.BAD_REQUEST, `User is ${isUserExist.isActive}`);
+  }
+  if (isUserExist.isDeleted) {
+    throw new AppError(httpStatus.BAD_REQUEST, "User is deleted");
   }
 
   const isPasswordMatched = await bcryptjs.compare(password as string, isUserExist.password as string);
