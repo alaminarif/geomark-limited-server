@@ -20,6 +20,22 @@ const createProject = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateProject = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id as string;
+  
+  const payload: IProject = {
+    ...req.body,
+    picture: req.file?.path,
+  };
+  const result = await ProjectService.updateProject(id, payload);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Project updated successfully",
+    data: result,
+  });
+});
+
 const getAllProjects = catchAsync(async (req: Request, res: Response) => {
   const query = req.query;
 
@@ -47,20 +63,6 @@ const getSingleProject = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// const updateProject = catchAsync(async (req: Request, res: Response) => {
-//   const payload: IProject = {
-//     ...req.body,
-//     images: (req.files as Express.Multer.File[]).map((file) => file.path),
-//   };
-//   const result = await ProjectService.updateProject(req.params.id, payload);
-//   sendResponse(res, {
-//     statusCode: 200,
-//     success: true,
-//     message: "Project updated successfully",
-//     data: result,
-//   });
-// });
-
 const deleteProject = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params as { id: string };
   const result = await ProjectService.deleteProject(id);
@@ -76,6 +78,6 @@ export const ProjectController = {
   createProject,
   getAllProjects,
   getSingleProject,
-  // updateProject,
+  updateProject,
   deleteProject,
 };

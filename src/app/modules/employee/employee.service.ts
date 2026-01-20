@@ -5,16 +5,41 @@ import { QueryBuilder } from "../../utils/QueryBuilder";
 import { Employee } from "./employee.model";
 import { IEmployee } from "./employee.interface";
 import { employeeSearchableFields } from "./employee.constant";
+import { deleteImageFromCLoudinary } from "../../config/cloudinary.config";
 
 const createEmployee = async (payload: IEmployee) => {
-  const existingEmployee = await Employee.findOne({ name: payload.name });
+  const existingEmployee = await Employee.findOne({ email: payload.email });
 
   if (existingEmployee) {
-    throw new AppError(httpStatus.CONFLICT, "Employee with this name already exists");
+    throw new AppError(httpStatus.CONFLICT, "Employee with this email already exists");
   }
 
   const employee = await Employee.create(payload);
   return employee;
+};
+
+const updateEmployee = async (id: string, payload: Partial<IEmployee>) => {
+  const existingEmployee = await Employee.findById(id);
+
+  if (!existingEmployee) {
+    throw new Error("Employee not found.");
+  }
+
+  const duplicateEmployee = await Employee.findOne({
+    email: payload.email,
+  });
+
+  if (duplicateEmployee) {
+    throw new Error("An Employee with this email already exists.");
+  }
+
+  const updatedEmployee = await Employee.findByIdAndUpdate(id, payload, { new: true, runValidators: true });
+
+  if (payload.picture && existingEmployee.picture) {
+    await deleteImageFromCLoudinary(existingEmployee.picture);
+  }
+
+  return updatedEmployee;
 };
 
 const getAllEmployees = async (query: Record<string, string>) => {
@@ -44,6 +69,7 @@ const deleteEmployee = async (id: string) => {
 
 export const EmployeeService = {
   createEmployee,
+  updateEmployee,
   getAllEmployees,
   getSingleEmployee,
   deleteEmployee,

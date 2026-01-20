@@ -29,7 +29,7 @@ const updateClient = async (id: string, payload: Partial<IClient>) => {
   });
 
   if (duplicateClient) {
-    throw new Error("A division with this name already exists.");
+    throw new Error("A Client with this name already exists.");
   }
 
   //

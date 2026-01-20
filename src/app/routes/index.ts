@@ -4,6 +4,7 @@ import { AuthRoutes } from "../modules/auth/auth.route";
 import { ClientRoutes } from "../modules/client/client.route";
 import { EmployeeRoutes } from "../modules/employee/employee.route";
 import { ProjectRoutes } from "../modules/project/project.route";
+import { ServiceRoutes } from "../modules/service/service.route";
 
 export const router = Router();
 
@@ -28,7 +29,7 @@ const moduleRoutes = [
   },
   {
     path: "/service",
-    route: ProjectRoutes,
+    route: ServiceRoutes,
   },
   {
     path: "/project",

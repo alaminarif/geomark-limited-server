@@ -13,7 +13,14 @@ export const createProjectZodSchema = z.object({
   picture: z.string().optional(),
 });
 
-export const updateProjectZodSchema = z.object({});
-// .refine((data) => Object.keys(data).length > 0, {
-//   message: "At least one field must be updated",
-// }),
+export const updateProjectZodSchema = z.object({
+  title: z.string().optional(),
+  name: z.string().optional(),
+  description: z.string().optional(),
+  details: z.string().optional(),
+  status: z.enum(Object.values(ProjectStatus) as [string]).optional(),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
+  client: z.string().optional(),
+  picture: z.string().optional(),
+});

@@ -21,6 +21,22 @@ const createClient = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateClient = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id as string;
+
+  const payload: IClient = {
+    ...req.body,
+    picture: req.file?.path,
+  };
+  const result = await ClientService.updateClient(id, payload);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Client updated successfully",
+    data: result,
+  });
+});
+
 const getAllClients = catchAsync(async (req: Request, res: Response) => {
   const query = req.query;
 
@@ -48,20 +64,6 @@ const getSingleClient = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// const updateClient = catchAsync(async (req: Request, res: Response) => {
-//   const payload: IClient = {
-//     ...req.body,
-//     images: (req.files as Express.Multer.File[]).map((file) => file.path),
-//   };
-//   const result = await ClientService.updateClient(req.params.id, payload);
-//   sendResponse(res, {
-//     statusCode: 200,
-//     success: true,
-//     message: "Client updated successfully",
-//     data: result,
-//   });
-// });
-
 const deleteClient = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params as { id: string };
   const result = await ClientService.deleteClient(id);
@@ -77,6 +79,6 @@ export const ClientController = {
   createClient,
   getAllClients,
   getSingleClient,
-  // updateClient,
+  updateClient,
   deleteClient,
 };

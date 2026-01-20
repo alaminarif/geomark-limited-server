@@ -22,6 +22,22 @@ const createEmployee = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateEmployee = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id as string;
+
+  const payload: IEmployee = {
+    ...req.body,
+    picture: req.file?.path,
+  };
+  const result = await EmployeeService.updateEmployee(id, payload);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Employee updated successfully",
+    data: result,
+  });
+});
+
 const getAllEmployees = catchAsync(async (req: Request, res: Response) => {
   const query = req.query;
 
@@ -49,20 +65,6 @@ const getSingleEmployee = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// const updateEmployee = catchAsync(async (req: Request, res: Response) => {
-//   const payload: IEmployee = {
-//     ...req.body,
-//     images: (req.files as Express.Multer.File[]).map((file) => file.path),
-//   };
-//   const result = await EmployeeService.updateEmployee(req.params.id, payload);
-//   sendResponse(res, {
-//     statusCode: 200,
-//     success: true,
-//     message: "Employee updated successfully",
-//     data: result,
-//   });
-// });
-
 const deleteEmployee = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params as { id: string };
   const result = await EmployeeService.deleteEmployee(id);
@@ -78,6 +80,6 @@ export const EmployeeController = {
   createEmployee,
   getAllEmployees,
   getSingleEmployee,
-  // updateEmployee,
+  updateEmployee,
   deleteEmployee,
 };
