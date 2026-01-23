@@ -12,14 +12,22 @@ JWT_REFRESH_EXPIRES=7d
 BCRYPT_SALT_ROUND=10
 
 # SUPER ADMIN
-SUPER_ADMIN_EMAIL=super@gmail.com
-SUPER_ADMIN_PASSWORD=12345678
+SUPER_ADMIN_EMAIL=
+SUPER_ADMIN_PASSWORD=
+
 
 # CLOUDINARY
 
 CLOUDINARY_CLOUD_NAME=dzipkt5er
 CLOUDINARY_API_KEY=686566434693221
 CLOUDINARY_API_SECRET=AKJs26O9tpu5nvddkJGkLAbn67Q
+
+# SMTP GMAIL
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+SMTP_USER=mentor.saminravi@gmail.com
+SMTP_PASS=jbfu ptuk rbam ixje
+SMTP_FROM=mentor.saminravi@gmail.com
 
 # Google
 GOOGLE_CLIENT_SECRET=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8w66B
@@ -30,4 +38,4 @@ GOOGLE_CALLBACK_URL=http://localhost:5000/api/v1/auth/google/callback
 EXPRESS_SESSION_SECRET=express-session
 
 # Frontend URL
-FRONTEND_URL=http://localhost:5173
+FRONTEND_URL=http://localhost:3000
